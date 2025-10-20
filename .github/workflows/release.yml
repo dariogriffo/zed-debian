@@ -1,0 +1,67 @@
+name: Build zed for Debian
+
+on:
+  workflow_dispatch:
+    inputs:
+      zed_version:
+        description: The version of zed to build.
+        type: string
+        required: true
+      build_version:
+        description: The build version.
+        type: string
+        required: true
+      architecture:
+        description: Architecture to build (amd64, arm64, armel, armhf, ppc64el, s390x, riscv64, or 'all' for all architectures)
+        type: choice
+        default: 'all'
+        options:
+          - 'all'
+          - 'amd64'
+          - 'arm64'
+          - 'armel'
+          - 'armhf'
+          - 'ppc64el'
+          - 's390x'
+          - 'riscv64'
+
+permissions:
+  contents: write
+
+jobs:
+  build-zed:
+    name: Build
+    runs-on: ubuntu-latest    
+    steps:
+      - name: Checkout zed-debian
+        uses: actions/checkout@v4
+
+      - name: Build zed
+        run: ./build.sh ${{ inputs.zed_version }} ${{ inputs.build_version }} ${{ inputs.architecture }}
+      
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifact
+          path: zed_*.deb
+
+
+  release-zed:
+    name: (Draft-)Release zed for Debian
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: build-zed
+    steps:
+      - name: Download All Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: artifact
+
+      - name: Publish Release Draft
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          files: zed_*.deb
+          name: ${{ inputs.zed_version }}+${{ inputs.build_version }}
+          tag_name: ${{ env.RELEASE_TAG }}
+          fail_on_unmatched_files: true

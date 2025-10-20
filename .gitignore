@@ -1,0 +1,7 @@
+# .deb Packages
+*.deb
+
+.idea/*
+.DS_Store
+
+
