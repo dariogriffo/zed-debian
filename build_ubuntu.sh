@@ -47,7 +47,7 @@ build_architecture() {
 
     rm -f "zed-linux-${zed_release}.tar.gz"
 
-    declare -a arr=("jammy" "noble")
+    declare -a arr=("jammy" "noble" "questing")
 
     for dist in "${arr[@]}"; do
         FULL_VERSION="$zed_VERSION-${BUILD_VERSION}+${dist}_${build_arch}_ubu"
