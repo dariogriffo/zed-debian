@@ -4,6 +4,7 @@ Maintainer: Dario Griffo <dariogriffo@gmail.com>
 Homepage: https://github.com/zed-industries/zed
 Package: zed
 Version: zed_VERSION-BUILD_VERSION+DIST
+Depends: libxkbcommon-x11-0
 Architecture: SUPPORTED_ARCHITECTURES
 Description: A high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.
 
