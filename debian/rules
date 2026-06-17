@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+ZED_VERSION := $(shell dpkg-parsechangelog -S Version | sed 's/[-~].*//')
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	@arch="$(DEB_HOST_ARCH)"; \
+	case "$$arch" in \
+		amd64) ZED_RELEASE="zed-linux-x86_64" ;; \
+		arm64) ZED_RELEASE="zed-linux-aarch64" ;; \
+		*) echo "Unsupported architecture: $$arch"; exit 1 ;; \
+	esac; \
+	echo "Downloading $$ZED_RELEASE for $(ZED_VERSION)..."; \
+	wget -q "https://github.com/zed-industries/zed/releases/download/v$(ZED_VERSION)/$$ZED_RELEASE.tar.gz"; \
+	tar -xf "$$ZED_RELEASE.tar.gz"; \
+	rm -f "$$ZED_RELEASE.tar.gz"
+
+override_dh_auto_install:
+	install -d -m 755 debian/zed/usr/bin; \
+	install -d -m 755 debian/zed/usr/lib/zed.app; \
+	install -d -m 755 debian/zed/usr/libexec; \
+	cp -r zed.app/bin/. debian/zed/usr/bin/; \
+	cp -r zed.app/lib/. debian/zed/usr/lib/zed.app/; \
+	cp -r zed.app/libexec/. debian/zed/usr/libexec/; \
+	chmod 755 debian/zed/usr/bin/*; \
+	chmod 755 debian/zed/usr/libexec/* 2>/dev/null || true
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+	rm -rf zed.app || true
+
+override_dh_strip:
+
+override_dh_shlibdeps:

@@ -1,0 +1,15 @@
+Source: zed
+Section: editors
+Priority: optional
+Maintainer: Dario Griffo <dariogriffo@gmail.com>
+Build-Depends: debhelper-compat (= 13), wget, ca-certificates
+Standards-Version: 4.6.2
+Homepage: https://github.com/zed-industries/zed
+Rules-Requires-Root: no
+
+Package: zed
+Architecture: amd64 arm64
+Depends: ${misc:Depends}
+Description: A high-performance, multiplayer code editor from the creators of Atom and Tree-sitter
+ Zed is a next-generation code editor designed for high-performance collaboration
+ with humans and AI. Built in Rust for speed and reliability.
