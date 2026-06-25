@@ -64,7 +64,7 @@ done
 
 echo ""
 echo "Building Ubuntu source packages..."
-UBUNTU_DISTS=("jammy" "noble" "questing" "noble")
+UBUNTU_DISTS=("jammy" "noble" "questing" "resolute")
 for dist in "${UBUNTU_DISTS[@]}"; do
     build_source_package "$dist"
 done
