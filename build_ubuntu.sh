@@ -50,7 +50,7 @@ build_architecture() {
     declare -a arr=("jammy" "noble" "questing" "resolute")
 
     for dist in "${arr[@]}"; do
-        FULL_VERSION="$zed_VERSION-${BUILD_VERSION}+${dist}_${build_arch}_ubu"
+        FULL_VERSION="$zed_VERSION-${BUILD_VERSION}~${dist}_${build_arch}_ubu"
         echo "  Building $FULL_VERSION"
 
         if ! docker build . -f Dockerfile.ubu -t "zed-ubuntu-$dist-$build_arch" \
