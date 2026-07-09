@@ -68,7 +68,7 @@ jobs:
             zed_*.debian.tar.xz
 
   release-zed:
-    name: (Draft-)Release zed for Debian
+    name: Release zed for Debian
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: [build-zed, build-src]
@@ -83,15 +83,15 @@ jobs:
         with:
           name: source-artifact
 
-      - name: Publish Release Draft
+      - name: Publish Release
         uses: softprops/action-gh-release@v2
         with:
-          draft: true
+          draft: false
           files: |
             zed_*.deb
             zed_*.dsc
             zed_*.orig.tar.gz
             zed_*.debian.tar.xz
           name: ${{ inputs.zed_version }}+${{ inputs.build_version }}
-          tag_name: ${{ env.RELEASE_TAG }}
+          tag_name: ${{ inputs.zed_version }}+${{ inputs.build_version }}
           fail_on_unmatched_files: true
