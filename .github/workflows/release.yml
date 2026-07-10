@@ -92,6 +92,6 @@ jobs:
             zed_*.dsc
             zed_*.orig.tar.gz
             zed_*.debian.tar.xz
-          name: ${{ inputs.zed_version }}+${{ inputs.build_version }}
-          tag_name: ${{ inputs.zed_version }}+${{ inputs.build_version }}
+          name: ${{ inputs.zed_version }}-${{ inputs.build_version }}
+          tag_name: ${{ inputs.zed_version }}-${{ inputs.build_version }}
           fail_on_unmatched_files: true
