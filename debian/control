@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: zed
 Architecture: amd64 arm64
-Depends: ${misc:Depends}
+Depends: ${misc:Depends}, libxkbcommon-x11-0, libopenblas0
 Description: A high-performance, multiplayer code editor from the creators of Atom and Tree-sitter
  Zed is a next-generation code editor designed for high-performance collaboration
  with humans and AI. Built in Rust for speed and reliability.
