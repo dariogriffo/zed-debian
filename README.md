@@ -20,7 +20,7 @@ This repository contains build scripts to produce the _unofficial_ Debian packag
 (.deb) for [zed](https://github.com/zed-industries/zed/) hosted at [debian.griffo.io](https://debian.griffo.io)
 
 <p align="center">
-⭐⭐⭐ Love using zed on Debian? Show your support by starring this repo or buying me a coffee! ⭐⭐⭐
+⭐⭐⭐ Love using zed on Debian? Show your support by starring this repo or [subscribing](https://buy.stripe.com/aFa28q8hr0lRdlm4a2enS01) — access to this repository requires a yearly subscription. ⭐⭐⭐
 </p>
 
 Currently supported Debian distros are:
