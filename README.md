@@ -39,6 +39,8 @@ install on Debian. If you're looking for the zed source code, see
 
 ## Install/Update
 
+📖 **Step-by-step install guide:** [Debian](https://debian.griffo.io/install-latest-zed-in-debian.html) · [Ubuntu](https://debian.griffo.io/install-latest-zed-in-ubuntu.html)
+
 ### The Debian way
 
 ```sh
