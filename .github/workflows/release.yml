@@ -36,6 +36,11 @@ jobs:
       - name: Checkout zed-debian
         uses: actions/checkout@v4
 
+      - name: Validate upstream license permits paid distribution
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: ./validate_license.sh ${{ inputs.zed_version }}
+
       - name: Build zed
         run: ./build.sh ${{ inputs.zed_version }} ${{ inputs.build_version }} ${{ inputs.architecture }}
 
