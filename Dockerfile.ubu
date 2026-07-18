@@ -17,6 +17,9 @@ COPY zed.app/bin/* /output/usr/bin/
 COPY zed.app/lib/* /output/usr/lib/zed.app/
 COPY zed.app/libexec/* /output/usr/libexec/
 COPY zed.app/share /output/usr/share/
+# Rename the zed binary to zeditor to avoid conflicting with the ZFS event daemon (zed)
+RUN mv /output/usr/bin/zed /output/usr/bin/zeditor
+RUN sed -i "s/Exec=zed/Exec=zeditor/g" /output/usr/share/applications/dev.zed.Zed.desktop
 RUN mkdir -p /output/usr/share/doc/zed
 
 COPY output/DEBIAN/control /output/DEBIAN/

@@ -26,6 +26,7 @@ override_dh_auto_install:
 	cp -r zed.app/bin/. debian/zed/usr/bin/; \
 	cp -r zed.app/lib/. debian/zed/usr/lib/zed.app/; \
 	cp -r zed.app/libexec/. debian/zed/usr/libexec/; \
+	mv debian/zed/usr/bin/zed debian/zed/usr/bin/zeditor; \
 	chmod 755 debian/zed/usr/bin/*; \
 	chmod 755 debian/zed/usr/libexec/* 2>/dev/null || true
 
