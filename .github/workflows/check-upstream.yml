@@ -40,9 +40,9 @@ jobs:
           up_ver="${up_tag#${TAG_PREFIX}}"
           echo "Upstream: ${up_tag} -> ${up_ver}"
 
-          # Our latest published release is "<ver>+<build>"; 404 -> empty -> build it.
+          # Our latest published release is "<ver>-<build>"; 404 -> empty -> build it.
           ours=$(gh api "repos/${GITHUB_REPOSITORY}/releases/latest" -q .tag_name 2>/dev/null || echo "")
-          ours_ver="${ours%%+*}"
+          ours_ver="${ours%%-*}"
           echo "Ours: ${ours:-<none>} -> ${ours_ver:-<none>}"
 
           if [ "$up_ver" = "$ours_ver" ]; then
