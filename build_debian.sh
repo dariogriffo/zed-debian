@@ -56,34 +56,32 @@ build_architecture() {
     
     rm -f "zed-linux-${zed_release}.tar.gz"
     
-    declare -a arr=("bookworm" "trixie" "forky" "sid")
+    # One package for every suite: upstream ships one binary per architecture,
+    # so only the old ~<suite> version suffix ever differed. The fixed ~griffo
+    # keeps it below the distro's own build of the same version.
+    FULL_VERSION="$zed_VERSION-${BUILD_VERSION}~griffo_${build_arch}"
+    echo "  Building $FULL_VERSION"
     
-    for dist in "${arr[@]}"; do
-        FULL_VERSION="$zed_VERSION-${BUILD_VERSION}~${dist}_${build_arch}"
-        echo "  Building $FULL_VERSION"
-        
-        if ! docker build . -t "zed-$dist-$build_arch" \
-            --build-arg DEBIAN_DIST="$dist" \
-            --build-arg zed_VERSION="$zed_VERSION" \
-            --build-arg BUILD_VERSION="$BUILD_VERSION" \
-            --build-arg FULL_VERSION="$FULL_VERSION" \
-            --build-arg ARCH="$build_arch" \
-            --build-arg zed_RELEASE="$zed_release"; then
-            echo "❌ Failed to build Docker image for $dist on $build_arch"
-            return 1
-        fi
-        
-        id="$(docker create "zed-$dist-$build_arch")"
-        if ! docker cp "$id:/zed_$FULL_VERSION.deb" - > "./zed_$FULL_VERSION.deb"; then
-            echo "❌ Failed to extract .deb package for $dist on $build_arch"
-            return 1
-        fi
-        
-        if ! tar -xf "./zed_$FULL_VERSION.deb"; then
-            echo "❌ Failed to extract .deb contents for $dist on $build_arch"
-            return 1
-        fi
-    done
+    if ! docker build . -t "zed-$build_arch" \
+        --build-arg zed_VERSION="$zed_VERSION" \
+        --build-arg BUILD_VERSION="$BUILD_VERSION" \
+        --build-arg FULL_VERSION="$FULL_VERSION" \
+        --build-arg ARCH="$build_arch" \
+        --build-arg zed_RELEASE="$zed_release"; then
+        echo "❌ Failed to build Docker image for $build_arch"
+        return 1
+    fi
+    
+    id="$(docker create "zed-$build_arch")"
+    if ! docker cp "$id:/zed_$FULL_VERSION.deb" - > "./zed_$FULL_VERSION.deb"; then
+        echo "❌ Failed to extract .deb package for $build_arch"
+        return 1
+    fi
+    
+    if ! tar -xf "./zed_$FULL_VERSION.deb"; then
+        echo "❌ Failed to extract .deb contents for $build_arch"
+        return 1
+    fi
     
     # Clean up extracted directory
     rm -rf "zed.app" || true
